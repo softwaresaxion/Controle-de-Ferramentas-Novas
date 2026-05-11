@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Controle de Ferramentas</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
+<style>
+
+:root{
+
+    --azul:#0b3b60;
+    --azul2:#1f5d8a;
+    --verde:#2e7d32;
+    --vermelho:#c62828;
+    --amarelo:#ff9800;
+    --cinza:#eef2f5;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+    background:var(--cinza);
+}
+
+/* TOPO */
+
+.topo{
+
+    background:linear-gradient(
+        90deg,
+        var(--azul),
+        var(--azul2)
+    );
+
+    color:#fff;
+
+    padding:12px 20px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logo img{
+    height:55px;
+}
+
+.logo h1{
+    font-size:24px;
+}
+
+/* BOTÕES */
+
+.botoes{
+    display:flex;
+    gap:20px;
+}
+
+.botao{
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.botao:hover{
+    transform:scale(1.06);
+}
+
+.botao i{
+    font-size:22px;
+}
+
+.botao span{
+    font-size:12px;
+    margin-top:5px;
+}
+
+/* CONTAINER */
+
+.container{
+    padding:20px;
+}
+
+/* ABAS */
+
+.abas{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.aba{
+
+    border:none;
+
+    padding:12px 18px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    background:#dce5ef;
+}
+
+.ativa{
+
+    background:var(--azul);
+    color:#fff;
+}
+
+/* CARD */
+
+.card{
+
+    background:#fff;
+
+    padding:20px;
+
+    border-radius:15px;
+
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* TABELA */
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-top:20px;
+}
+
+th{
+
+    background:var(--azul);
+
+    color:#fff;
+
+    padding:12px;
+
+    text-align:left;
+}
+
+td{
+
+    padding:12px;
+
+    border-bottom:1px solid #ddd;
+}
+
+tr:hover{
+    background:#f5f5f5;
+}
+
+/* STATUS */
+
+.ok{
+
+    color:var(--verde);
+    font-weight:bold;
+}
+
+.baixo{
+
+    color:var(--vermelho);
+    font-weight:bold;
+}
+
+.alerta{
+
+    background:#ffebee !important;
+}
+
+/* DEVOLUÇÃO */
+
+.devolvido{
+
+    background:#d4edda;
+
+    color:#155724;
+
+    padding:4px 10px;
+
+    border-radius:6px;
+
+    font-size:12px;
+
+    font-weight:bold;
+}
+
+.pendente{
+
+    background:#fff3cd;
+
+    color:#856404;
+
+    padding:4px 10px;
+
+    border-radius:6px;
+
+    font-size:12px;
+
+    font-weight:bold;
+}
+
+/* MODAL */
+
+.modal{
+
+    display:none;
+
+    position:fixed;
+
+    width:100%;
+    height:100%;
+
+    background:rgba(0,0,0,0.5);
+
+    top:0;
+    left:0;
+
+    justify-content:center;
+    align-items:center;
+
+    z-index:999;
+}
+
+.modal-content{
+
+    background:#fff;
+
+    width:500px;
+
+    border-radius:15px;
+
+    padding:25px;
+
+    position:relative;
+}
+
+.fechar{
+
+    position:absolute;
+
+    right:20px;
+    top:15px;
+
+    font-size:24px;
+
+    cursor:pointer;
+}
+
+.modal-content h2{
+
+    margin-bottom:20px;
+
+    color:var(--azul);
+}
+
+.campo{
+    margin-bottom:15px;
+}
+
+.campo label{
+
+    display:block;
+
+    margin-bottom:5px;
+
+    font-weight:bold;
+}
+
+.campo input,
+.campo select{
+
+    width:100%;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    border:1px solid #ccc;
+}
+
+.salvar{
+
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:var(--azul);
+
+    color:#fff;
+
+    font-size:16px;
+
+    cursor:pointer;
+}
+
+/* QUANTIDADE */
+
+.qtd-box{
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.qtd-btn{
+
+    width:45px;
+    height:45px;
+
+    border:none;
+
+    border-radius:10px;
+
+    color:#fff;
+
+    font-size:20px;
+
+    cursor:pointer;
+}
+
+.mais{
+    background:green;
+}
+
+.menos{
+    background:red;
+}
+
+.qtd-input{
+
+    text-align:center;
+
+    font-size:18px;
+
+    font-weight:bold;
+}
+
+/* EXCLUIR */
+
+.btn-excluir{
+
+    background:red;
+
+    color:#fff;
+
+    border:none;
+
+    padding:7px 10px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- TOPO -->
+
+<div class="topo">
+
+    <div class="logo">
+
+        <img src="https://extranet.vianaemoura.com.br/img_p/logoNova.png">
+
+        <h1>Controle de Ferramentas</h1>
+
+    </div>
+
+    <div class="botoes">
+
+        <!-- MOVIMENTAÇÃO -->
+
+        <div class="botao btn-mov"
+        onclick="abrirEntrada()">
+
+            <i class="fa-solid fa-box-open"></i>
+            <span>Entrada</span>
+
+        </div>
+
+        <div class="botao btn-mov"
+        onclick="abrirSaida()">
+
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            <span>Saída</span>
+
+        </div>
+
+        <div class="botao btn-mov"
+        onclick="registrarDevolucao()">
+
+            <i class="fa-solid fa-rotate-left"></i>
+            <span>Devolução</span>
+
+        </div>
+
+        <div class="botao btn-mov"
+        onclick="gerarPDF()">
+
+            <i class="fa-solid fa-file-pdf"></i>
+            <span>PDF</span>
+
+        </div>
+
+        <div class="botao btn-mov"
+        onclick="limparHistorico()">
+
+            <i class="fa-solid fa-trash"></i>
+            <span>Limpar</span>
+
+        </div>
+
+        <!-- ESTOQUE -->
+
+        <div class="botao btn-estoque"
+        style="display:none;"
+        onclick="definirEstoqueMinimo()">
+
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Estoque</span>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CONTAINER -->
+
+<div class="container">
+
+    <!-- ABAS -->
+
+    <div class="abas">
+
+        <button class="aba ativa"
+        onclick="mostrarAba('movimentacao')">
+
+            Movimentações
+
+        </button>
+
+        <button class="aba"
+        onclick="mostrarAba('estoque')">
+
+            Estoque
+
+        </button>
+
+    </div>
+
+    <!-- MOVIMENTAÇÃO -->
+
+    <div id="movimentacao"
+    class="card">
+
+        <h2>Movimentações</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Processo</th>
+                    <th>Ferramenta</th>
+                    <th>Qtd</th>
+                    <th>Entregou</th>
+                    <th>Recebeu</th>
+                    <th>Setor</th>
+                    <th>Grupo</th>
+                    <th>Tipo</th>
+                    <th>Devolução</th>
+                    <th>Data</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="corpoMov"></tbody>
+
+        </table>
+
+    </div>
+
+    <!-- ESTOQUE -->
+
+    <div id="estoque"
+    class="card"
+    style="display:none;">
+
+        <h2>Estoque</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Ferramenta</th>
+                    <th>Categoria</th>
+                    <th>Quantidade</th>
+                    <th>Mínimo</th>
+                    <th>Status</th>
+                    <th>Ação</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="corpoEstoque"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- MODAL ENTRADA -->
+
+<div class="modal"
+id="modalEntrada">
+
+<div class="modal-content">
+
+<span class="fechar"
+onclick="fecharModal('modalEntrada')">
+
+×
+
+</span>
+
+<h2>Entrada</h2>
+
+<div class="campo">
+
+<label>Ferramenta</label>
+
+<input type="text"
+id="entradaFerramenta">
+
+</div>
+
+<div class="campo">
+
+<label>Quantidade</label>
+
+<input type="number"
+id="entradaQuantidade">
+
+</div>
+
+<div class="campo">
+
+<label>Categoria</label>
+
+<select id="entradaCategoria">
+
+<option>Ferramenta Grande</option>
+<option>Ferramenta Pequena</option>
+<option>Ferramenta Elétrica</option>
+
+</select>
+
+</div>
+
+<button class="salvar"
+onclick="salvarEntrada()">
+
+Salvar Entrada
+
+</button>
+
+</div>
+
+</div>
+
+<!-- MODAL SAÍDA -->
+
+<div class="modal"
+id="modalSaida">
+
+<div class="modal-content">
+
+<span class="fechar"
+onclick="fecharModal('modalSaida')">
+
+×
+
+</span>
+
+<h2>Saída</h2>
+
+<div class="campo">
+
+<label>Ferramenta</label>
+
+<select id="saidaFerramenta"></select>
+
+</div>
+
+<div class="campo">
+
+<label>Quantidade</label>
+
+<div class="qtd-box">
+
+<button class="qtd-btn menos"
+onclick="diminuirQtd()">
+
+-
+
+</button>
+
+<input type="number"
+id="saidaQuantidade"
+class="qtd-input"
+value="1">
+
+<button class="qtd-btn mais"
+onclick="aumentarQtd()">
+
++
+
+</button>
+
+</div>
+
+</div>
+
+<div class="campo">
+
+<label>Quem Entregou</label>
+
+<select id="saidaEntregou">
+
+<option>Ian Sotero</option>
+<option>Sheila e Rocha</option>
+<option>Elisa</option>
+<option>Jessiquele Saldanha</option>
+<option>Sara Barros</option>
+
+</select>
+
+</div>
+
+<div class="campo">
+
+<label>Quem Recebeu</label>
+
+<input type="text"
+id="saidaRecebeu">
+
+</div>
+
+<div class="campo">
+
+<label>Setor</label>
+
+<select id="saidaSetor"
+onchange="verificarGrupo()">
+
+<option>Infra</option>
+<option>Produção</option>
+
+</select>
+
+</div>
+
+<div class="campo"
+id="grupoCampo"
+style="display:none;">
+
+<label>Grupo</label>
+
+<select id="saidaGrupo">
+
+<option>Avulso</option>
+<option>Motivação</option>
+<option>Confiança</option>
+<option>Inovação</option>
+<option>Coberta</option>
+<option>Forma</option>
+<option>Pré-Forma</option>
+
+</select>
+
+</div>
+
+<div class="campo">
+
+<label>Tipo</label>
+
+<select id="saidaTipo">
+
+<option>Troca</option>
+<option>Retirada</option>
+
+</select>
+
+</div>
+
+<button class="salvar"
+onclick="salvarSaida()">
+
+Salvar Saída
+
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+/* STORAGE */
+
+let estoque =
+JSON.parse(localStorage.getItem("estoque")) || [];
+
+let movimentacoes =
+JSON.parse(localStorage.getItem("movimentacoes")) || [];
+
+let estoqueMinimo =
+JSON.parse(localStorage.getItem("estoqueMinimo")) || {};
+
+/* SALVAR */
+
+function salvarLocal(){
+
+    localStorage.setItem(
+        "estoque",
+        JSON.stringify(estoque)
+    );
+
+    localStorage.setItem(
+        "movimentacoes",
+        JSON.stringify(movimentacoes)
+    );
+
+    localStorage.setItem(
+        "estoqueMinimo",
+        JSON.stringify(estoqueMinimo)
+    );
+}
+
+/* MODAIS */
+
+function abrirEntrada(){
+
+    document.getElementById(
+        "modalEntrada"
+    ).style.display = "flex";
+}
+
+function abrirSaida(){
+
+    atualizarListaFerramentas();
+
+    document.getElementById(
+        "modalSaida"
+    ).style.display = "flex";
+}
+
+function fecharModal(id){
+
+    document.getElementById(id)
+    .style.display = "none";
+}
+
+/* QUANTIDADE */
+
+function aumentarQtd(){
+
+    let campo =
+    document.getElementById(
+        "saidaQuantidade"
+    );
+
+    campo.value =
+    parseInt(campo.value) + 1;
+}
+
+function diminuirQtd(){
+
+    let campo =
+    document.getElementById(
+        "saidaQuantidade"
+    );
+
+    if(parseInt(campo.value) > 1){
+
+        campo.value =
+        parseInt(campo.value) - 1;
+    }
+}
+
+/* GRUPO */
+
+function verificarGrupo(){
+
+    let setor =
+    document.getElementById(
+        "saidaSetor"
+    ).value;
+
+    document.getElementById(
+        "grupoCampo"
+    ).style.display =
+
+    setor === "Produção"
+    ? "block"
+    : "none";
+}
+
+/* ENTRADA */
+
+function salvarEntrada(){
+
+    let nome =
+    document.getElementById(
+        "entradaFerramenta"
+    ).value;
+
+    let quantidade =
+    parseInt(
+        document.getElementById(
+            "entradaQuantidade"
+        ).value
+    );
+
+    let categoria =
+    document.getElementById(
+        "entradaCategoria"
+    ).value;
+
+    let novoID =
+    estoque.length > 0
+    ? estoque[0].id + 1
+    : 1;
+
+    estoque.unshift({
+
+        id:novoID,
+        nome,
+        categoria,
+        quantidade
+
+    });
+
+    salvarLocal();
+
+    atualizarTabelaEstoque();
+
+    fecharModal("modalEntrada");
+}
+
+/* SAÍDA */
+
+function salvarSaida(){
+
+    let ferramenta =
+    document.getElementById(
+        "saidaFerramenta"
+    ).value;
+
+    let quantidade =
+    parseInt(
+        document.getElementById(
+            "saidaQuantidade"
+        ).value
+    );
+
+    let entregou =
+    document.getElementById(
+        "saidaEntregou"
+    ).value;
+
+    let recebeu =
+    document.getElementById(
+        "saidaRecebeu"
+    ).value;
+
+    let setor =
+    document.getElementById(
+        "saidaSetor"
+    ).value;
+
+    let grupo =
+
+    setor === "Produção"
+
+    ?
+
+    document.getElementById(
+        "saidaGrupo"
+    ).value
+
+    :
+
+    "-";
+
+    let tipo =
+    document.getElementById(
+        "saidaTipo"
+    ).value;
+
+    let data =
+    new Date().toLocaleString();
+
+    let processo =
+    movimentacoes.length > 0
+    ? movimentacoes[0].processo + 1
+    : 1;
+
+    movimentacoes.unshift({
+
+        processo,
+        ferramenta,
+        quantidade,
+        entregou,
+        recebeu,
+        setor,
+        grupo,
+        tipo,
+        devolucao:
+        tipo === "Troca"
+        ? "-"
+        : "Pendente",
+        data
+
+    });
+
+    let item =
+    estoque.find(
+        e => e.nome === ferramenta
+    );
+
+    if(item){
+
+        item.quantidade -= quantidade;
+    }
+
+    salvarLocal();
+
+    atualizarTabelaMov();
+
+    atualizarTabelaEstoque();
+
+    fecharModal("modalSaida");
+}
+
+/* DEVOLUÇÃO */
+
+function registrarDevolucao(){
+
+    let processo =
+    prompt(
+        "Digite o número do processo:"
+    );
+
+    let mov =
+    movimentacoes.find(
+        m => m.processo == processo
+    );
+
+    if(!mov){
+
+        alert("Processo não encontrado.");
+        return;
+    }
+
+    if(mov.tipo !== "Retirada"){
+
+        alert(
+            "Somente retirada pode devolver."
+        );
+
+        return;
+    }
+
+    if(mov.devolucao === "Devolvido"){
+
+        alert("Já devolvido.");
+        return;
+    }
+
+    mov.devolucao = "Devolvido";
+
+    let item =
+    estoque.find(
+        e => e.nome === mov.ferramenta
+    );
+
+    if(item){
+
+        item.quantidade += mov.quantidade;
+    }
+
+    salvarLocal();
+
+    atualizarTabelaMov();
+
+    atualizarTabelaEstoque();
+
+    alert("Devolução registrada.");
+}
+
+/* TABELA MOV */
+
+function atualizarTabelaMov(){
+
+    let corpo =
+    document.getElementById(
+        "corpoMov"
+    );
+
+    corpo.innerHTML = "";
+
+    movimentacoes.forEach(m => {
+
+        let devolucao =
+
+        m.devolucao === "Devolvido"
+
+        ?
+
+        '<span class="devolvido">DEVOLVIDO</span>'
+
+        :
+
+        m.devolucao === "-"
+
+        ?
+
+        "-"
+
+        :
+
+        '<span class="pendente">PENDENTE</span>';
+
+        corpo.innerHTML += `
+
+        <tr>
+
+            <td>${m.processo}</td>
+            <td>${m.ferramenta}</td>
+            <td>${m.quantidade}</td>
+            <td>${m.entregou}</td>
+            <td>${m.recebeu}</td>
+            <td>${m.setor}</td>
+            <td>${m.grupo}</td>
+            <td>${m.tipo}</td>
+            <td>${devolucao}</td>
+            <td>${m.data}</td>
+
+        </tr>
+
+        `;
+    });
+}
+
+/* TABELA ESTOQUE */
+
+function atualizarTabelaEstoque(){
+
+    let corpo =
+    document.getElementById(
+        "corpoEstoque"
+    );
+
+    corpo.innerHTML = "";
+
+    estoque.forEach(item => {
+
+        let minimo =
+        estoqueMinimo[item.nome] || 0;
+
+        let baixo =
+        item.quantidade <= minimo;
+
+        let status =
+
+        baixo
+
+        ?
+
+        '<span class="baixo">ESTOQUE BAIXO</span>'
+
+        :
+
+        '<span class="ok">OK</span>';
+
+        corpo.innerHTML += `
+
+        <tr class="${
+            baixo ? 'alerta' : ''
+        }">
+
+            <td>${item.id}</td>
+            <td>${item.nome}</td>
+            <td>${item.categoria}</td>
+            <td>${item.quantidade}</td>
+            <td>${minimo}</td>
+            <td>${status}</td>
+
+            <td>
+
+                <button
+                class="btn-excluir"
+                onclick="excluirItem(${item.id})">
+
+                    Excluir
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+    });
+}
+
+/* EXCLUIR */
+
+function excluirItem(id){
+
+    const indice =
+    estoque.findIndex(
+        item => item.id === id
+    );
+
+    if(indice === -1){
+
+        alert("Item não encontrado.");
+        return;
+    }
+
+    const confirmar =
+    confirm(
+        "Deseja excluir este item?"
+    );
+
+    if(!confirmar) return;
+
+    estoque.splice(indice,1);
+
+    salvarLocal();
+
+    atualizarTabelaEstoque();
+
+    atualizarListaFerramentas();
+
+    alert("Item removido.");
+}
+
+/* LISTA */
+
+function atualizarListaFerramentas(){
+
+    let select =
+    document.getElementById(
+        "saidaFerramenta"
+    );
+
+    select.innerHTML = "";
+
+    estoque.forEach(item => {
+
+        select.innerHTML += `
+
+        <option>${item.nome}</option>
+
+        `;
+    });
+}
+
+/* PDF */
+
+function gerarPDF(){
+
+    const { jsPDF } = window.jspdf;
+
+    const doc =
+    new jsPDF('landscape');
+
+    doc.setFontSize(18);
+
+    doc.text(
+        "Controle de Ferramentas",
+        14,
+        20
+    );
+
+    doc.setFontSize(10);
+
+    doc.text(
+        "Emitido em: " +
+        new Date().toLocaleString(),
+        14,
+        28
+    );
+
+    let linhas = [];
+
+    movimentacoes.forEach(m => {
+
+        linhas.push([
+
+            m.processo,
+            m.ferramenta,
+            m.quantidade,
+            m.entregou,
+            m.recebeu,
+            m.setor,
+            m.grupo,
+            m.tipo,
+            m.devolucao,
+            m.data
+
+        ]);
+    });
+
+    doc.autoTable({
+
+        head:[[
+            "Processo",
+            "Ferramenta",
+            "Qtd",
+            "Entregou",
+            "Recebeu",
+            "Setor",
+            "Grupo",
+            "Tipo",
+            "Devolução",
+            "Data"
+        ]],
+
+        body:linhas,
+
+        startY:35
+    });
+
+    let agora =
+    new Date();
+
+    let nome =
+
+    "Controle de Ferramentas Novas - " +
+
+    agora
+    .toLocaleDateString()
+    .replace(/\//g,"-")
+
+    + " "
+
+    +
+
+    agora
+    .toLocaleTimeString()
+    .replace(/:/g,"-");
+
+    doc.save(nome + ".pdf");
+}
+
+/* LIMPAR */
+
+function limparHistorico(){
+
+    let senha =
+    prompt(
+        "Digite a senha:"
+    );
+
+    if(
+        senha ===
+        "LimparMovimentacaoFN26"
+    ){
+
+        movimentacoes = [];
+
+        salvarLocal();
+
+        atualizarTabelaMov();
+
+        alert("Histórico apagado.");
+
+    }else{
+
+        alert("Senha incorreta.");
+    }
+}
+
+/* ABA */
+
+function mostrarAba(aba){
+
+    document.getElementById(
+        "movimentacao"
+    ).style.display =
+
+    aba === "movimentacao"
+    ? "block"
+    : "none";
+
+    document.getElementById(
+        "estoque"
+    ).style.display =
+
+    aba === "estoque"
+    ? "block"
+    : "none";
+
+    let abas =
+    document.querySelectorAll(".aba");
+
+    abas.forEach(a =>
+        a.classList.remove("ativa")
+    );
+
+    if(aba === "movimentacao"){
+
+        abas[0].classList.add("ativa");
+
+        document.querySelectorAll(".btn-mov")
+        .forEach(btn => {
+
+            btn.style.display = "flex";
+        });
+
+        document.querySelectorAll(".btn-estoque")
+        .forEach(btn => {
+
+            btn.style.display = "none";
+        });
+
+    }else{
+
+        abas[1].classList.add("ativa");
+
+        document.querySelectorAll(".btn-mov")
+        .forEach(btn => {
+
+            btn.style.display = "none";
+        });
+
+        document.querySelectorAll(".btn-estoque")
+        .forEach(btn => {
+
+            btn.style.display = "flex";
+        });
+    }
+}
+
+/* ESTOQUE MÍNIMO */
+
+function definirEstoqueMinimo(){
+
+    let nome =
+    prompt(
+        "Nome da ferramenta:"
+    );
+
+    let qtd =
+    prompt(
+        "Quantidade mínima:"
+    );
+
+    estoqueMinimo[nome] =
+    parseInt(qtd);
+
+    salvarLocal();
+
+    atualizarTabelaEstoque();
+
+    alert("Estoque mínimo salvo.");
+}
+
+/* INICIAL */
+
+atualizarTabelaMov();
+
+atualizarTabelaEstoque();
+
+</script>
+
+</body>
+</html>
